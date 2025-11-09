@@ -1,7 +1,7 @@
-package goSubmit
+package submit
 
 import "fmt"
 
-func GoSubmit() {
+func Init() {
 	fmt.Println("This is goSubmit package")
 }
