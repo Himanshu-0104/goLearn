@@ -5,6 +5,7 @@ import (
     "fmt"
     "os"
     "time"
+    "sort"
 )
 
 
@@ -28,13 +29,458 @@ const (
 	MOD = ll(1e9 + 7)
 )
 
+// Ques2
+func nextPermutation(nums []int)  {
+    n:=len(nums)
+
+    bp:= -1
+    for i:=n-2;i>=0;i--{
+        if nums[i]<nums[i+1] {
+            bp=i
+            break;
+        }
+    }
+    if bp == -1 {
+        for i,j:=0,n-1;i<j;i,j=i+1,j-1 {
+            nums[i], nums[j] = nums[j],nums[i]
+        }
+        return
+    }
+    for i:=n-1;i>=bp;i--{
+        if nums[i]>nums[bp] {
+            nums[i], nums[bp] = nums[bp], nums[i]
+            break
+        }
+    }
+
+    for i,j:=bp+1,n-1;i<j;i,j=i+1,j-1 {
+        nums[i], nums[j] = nums[j],nums[i]
+    }
+    
+}
+
+// Ques1
+func generate(numRows int) [][]int {
+    var ans [][]int
+    n:=numRows
+    // ans:=make([][]int,0)
+    for i:=0;i<n;i++ {
+        // var temp []int 
+        temp:= make([]int,i+1)
+        temp[0]=1
+        temp[i]=1
+        for j:=1;j<i;j++ {
+            temp[j]=ans[i-1][j-1]+ans[i-1][j]
+        }
+        // ans.pushback(temp)
+        ans=append(ans,temp)
+    }
+    return ans 
+}
+
+// Ques3
+func maxSubArray(nums []int) int {
+    // //Bruteforce n^3
+    // n:=len(nums)
+    // ans:=-int(INF)
+    // for i:=0;i<n;i++{
+    //     for j:=i;j<n;j++{
+    //         sum:=0
+    //         for k:=i;k<=j;k++ {
+    //             sum+=nums[k]
+    //         }
+    //         ans=max(sum,ans)
+    //     }
+    // }
+    // return ans
+
+    // // Bruteforce n^2
+    // n:=len(nums)
+    // ans:=-int(INF)
+    // for i:=0;i<n;i++ {
+    //     sum:=0
+    //     for j:=i;j<n;j++ {
+    //         sum+=nums[j]
+    //         ans=max(ans,sum)
+    //     }
+    // }
+    // return ans
+
+    // kadane's algo
+    n:=len(nums)
+    ans:=-int(INF)
+    sum:=0
+    for i:=0;i<n;i++ {
+        sum+=nums[i]
+        if sum>ans {
+            ans=sum
+        }
+        if sum<0 {
+            sum=0
+        }
+    }
+
+    return ans
+}
+
+//Ques4 
+func sortColors(nums []int)  {
+    //optimised 
+
+    n:=len(nums)
+    for s,m,e:=0,0,n-1;m<=e; {
+        if nums[m]==0 {
+            nums[s], nums[m] = nums[m],nums[s]
+            s++
+            m++
+        } else if nums[m] == 2 {
+            nums[e],nums[m] = nums[m],nums[e]
+            e--
+        } else {
+            m++
+        }
+    }
+
+    // ENDS HERE
+
+
+    // //bruteforce //just counts 
+    // zeros,ones,twos:=0,0,0
+    // n:=len(nums)
+    // for i:=0;i<n;i++ {
+    //     if nums[i] == 0 {
+    //         zeros++
+    //     }
+    //     if nums[i] == 1 {
+    //         ones++
+    //     }
+    //     if nums[i] == 2 {
+    //         twos++
+    //     }
+    // }
+    
+    // /*  // // not works bcz in for loop (init (multiple), condition (just a condition), post (multiple) )
+    //     // for zeros>0 || ones>0 || twos>0 { 
+    //     //     if zeros>0 {
+    //     //         nums[i++] = 0
+    //     //         zeros--
+    //     //     }
+    //     //     else if ones>0 {
+    //     //         nums[i++] = 1
+    //     //         ones--
+    //     //     }
+    //     //     else twos>0 {
+    //     //         nums[i++] = 2
+    //     //         twos--
+    //     //     }
+    //     // }
+    // */
+    
+    // // // // multiple loop
+    // // // // // ++ is statement in go, in other languages it is expression means ++ return some value
+    // // i:=0
+    // // for zeros>0 {
+    // //     nums[i] = 0
+    // //     i++ 
+    // //     zeros-- 
+    // // }
+    // // for ones>0 {
+    // //     nums[i] = 1
+    // //     i++
+    // //     ones-- 
+    // // }
+    // // for twos>0 {
+    // //     nums[i] = 2
+    // //     i++
+    // //     twos-- 
+    // // }
+
+
+    // // // single loop
+    // for i:=0;i<n;i++ {
+    //     /* // this is shit
+    //         // if zeros>0 {
+    //         //     zeros--
+    //         //     nums[i] = 0
+    //         //     continue
+    //         // }
+    //         // if ones>0 {
+    //         //     ones--
+    //         //     nums[i] = 1
+    //         //     continue
+    //         // }
+    //         // if twos>0 {
+    //         //     twos--
+    //         //     nums[i] = 2
+    //         //     continue
+    //         // }
+    //     */
+
+    //     // // optmised way
+    //     if zeros>0 {
+    //         zeros--
+    //         nums[i]=0
+    //     } else if ones>0 {
+    //         ones--
+    //         nums[i]=1
+    //     } else {
+    //         twos--
+    //         nums[i]=2
+    //     }
+    // }
+    
+    // //BruteForce ENDS
+
+
+
+    return 
+}
+
+//Ques5
+func maxProfit(prices []int) int {
+    //bruteforce ->gives tle
+    // // ans:=-int(INF)
+    // ans:=0 //if all -ve then 0 by default expected answer
+    // n:=len(prices)
+    // for i:=0;i<n;i++ {
+    //     for j:=i;j<n;j++ {
+    //         ans=max(prices[j]-prices[i],ans)
+    //     }
+    // }
+    // return ans
+    
+
+    //optimise
+    n:=len(prices)
+    // ans:=-int(INF)
+    ans:=0
+    minm:=int(INF)
+    for i:=0;i<n;i++ {
+        if prices[i]<minm {
+            minm=prices[i]
+        }
+        ans=max(prices[i]-minm,ans)
+    }
+    return ans
+
+}
+
+//Ques6
+func rotate(matrix [][]int)  {
+    // //bruteforce
+    // n:=len(matrix)
+    // // m:=len(matrix[0])
+    // ans:=make([][]int, n)
+    // for i:=0;i<n;i++ {
+    //     ans[i]=make([]int, n)
+    // }
+
+    // for i:=0;i<n;i++ {
+    //     for j:=0;j<n;j++ {
+    //         ans[j][n-i-1]=matrix[i][j]
+    //     }
+    // }
+    
+    // for i:=0;i<n;i++ {
+    //     for j:=0;j<n;j++ {
+    //         matrix[i][j]=ans[i][j]
+    //     }
+    // }
+
+    //optimise (inplace by transpose,reverse in row)
+    //1. transpose of matrix
+    n:=len(matrix)
+    m:=len(matrix[0])
+
+    for i:=0;i<n;i++ {
+        for j:=i+1;j<m;j++ {
+            matrix[i][j], matrix[j][i] = matrix[j][i], matrix[i][j]
+        }
+    }
+    for i:=0;i<n;i++ {
+        for l,h:=0,m-1;l<h;l,h=l+1, h-1{
+            matrix[i][l], matrix[i][h]=matrix[i][h],matrix[i][l]
+        }
+        
+    }
+    
+}
+
+//Ques7
+func _merge(intervals [][]int) [][]int {
+    // // //bruteforce n^2(each with other lefts)
+    // n:=len(intervals)
+    
+    // ans:=make([][]int,0)
+    // visit:=make([]bool,n) //total no. of pairs
+    // for i:=0;i<n;i++ {
+    //     if visit[i] {continue} // to skip already merged by innerloop
+    //     visit[i]=true
+    //     start:=intervals[i][0]
+    //     end:=intervals[i][1]
+
+    //     change:=true
+    //     for change {
+    //         change=false
+
+    //         for j:=0; j<n; j++ {
+    //             if visit[j] {continue}
+    //             cstart:=intervals[j][0]
+    //             cend:=intervals[j][1]
+    //             //condition of overlap
+    //             if max(cstart,start) <= min(cend,end) {
+    //                 start = min(cstart,start)
+    //                 end = max(cend,end)
+    //                 visit[j]=true //merged to skip in outerloop
+    //                 change=true
+    //             }
+                
+    //         }
+    //     }
+    //     ans=append(ans,[]int{start,end})
+    // }
+    // return ans
+
+    // //optimal nlogn(sort acc to starting point)
+    // sort
+    // now check overlap for just next intervals by only comparing prevs 1 ka next 0 se if small then overlap else continue
+
+    n:=len(intervals)
+    ans:=make([][]int,0)
+    sort.Slice(intervals, func(i,j int) bool {
+        return intervals[i][0]<intervals[j][0]
+    })
+
+    for i:=0;i<n;i++ {
+        if len(ans)==0 {
+            start:=intervals[i][0]
+            end:=intervals[i][1]
+            ans=append(ans,[]int {start,end})
+        } else if ans[len(ans)-1][1]>=intervals[i][0] { //overlap
+            start:=ans[len(ans)-1][0]
+            end:=max(ans[len(ans)-1][1],intervals[i][1])
+            //pop last from which i merged
+            ans=ans[:len(ans)-1]
+            //append mergeds
+            ans=append(ans,[]int{start,end})
+        } else {
+            ans=append(ans,[]int{intervals[i][0],intervals[i][1]})
+        }
+    }
+    return ans
+
+}
+
+//Ques8
+func merge(nums1 []int, m int, nums2 []int, n int)  {
+    
+}
 
 
 func solve() {
+/*
+    // Ques1
     // fmt.Fprintln(out,"this is in solve")
     // var a,b int
     // fmt.Fscan(in,&a,&b)
     // fmt.Fprintln(out,a,b)
+
+    // Ques2
+    // n:=0
+    // fmt.Fscan(in,&n)
+    // // ans:= generate(n)
+    // nums:=make([]int,n)
+    // for i:=0;i<n;i++{
+    //     fmt.Fscan(in,&nums[i])
+    // }
+    // nextPermutation(nums)
+    // fmt.Fprintln(out,nums)
+
+    // Ques3
+    // var n int
+    // fmt.Fscan(in,&n)
+    // // var arr []int
+    // arr:=make([]int , n)
+    // for i:=0;i<n;i++ {
+    //     // var x int
+    //     // fmt.Fscan(in,&x)
+    //     // arr=append(arr,x)
+    //     fmt.Fscan(in,&arr[i])
+    // }
+    // ans:=maxSubArray(arr)
+    // fmt.Fprintln(out,ans)
+
+    // // Quer4
+    // n:=0
+    // fmt.Fscan(in,&n)
+    // arr:=make([]int, n)
+    // for i:=0;i<n;i++ {
+    //     fmt.Fscan(in,&arr[i])
+    // }
+
+    // sortColors(arr)
+    // for i,_ := range arr {
+    //     // fmt.Fprintln(out,arr)  
+    //     fmt.Fprint(out,arr[i]," ") 
+    // }
+    // fmt.Fprintln(out)
+
+    // // Ques5
+    // n:=0
+    // fmt.Fscan(in,&n)
+    // arr:=make([]int,n)
+
+    // for i:=0;i<n;i++ {
+    //     fmt.Fscan(in,&arr[i])
+    // }
+    // ans:=maxProfit(arr)
+    // fmt.Fprintln(out,ans)
+
+    // Ques6
+    // n:=0
+    // fmt.Fscan(in,&n)
+    // arr:=make([][]int, n)
+    // for i:=0;i<n;i++ {
+    //     arr[i]=make([]int, n)
+    // }
+
+    // for i:=0;i<n;i++ {
+    //     for j:=0;j<n;j++ {
+    //         fmt.Fscan(in,&arr[i][j])
+    //     }
+    // }
+    // rotate(arr)
+
+    // fmt.Fprintln(out,"arr",arr)
+
+    // Ques7
+    // n:=0
+    // fmt.Fscan(in,&n)
+    // arr:=make([][]int, n)
+    // for i:=0;i<n;i++ {
+    //     arr[i]=make([]int,2)
+    // }
+    // for i:=0;i<n;i++ {
+    //     var a,b int
+    //     fmt.Fscan(in,&a,&b)
+    //     arr[i][0],arr[i][1]=a,b
+    // }
+    // ans:=merge(arr)
+    // fmt.Fprintln(out,"ans",ans)
+    
+    // Ques8
+*/
+
+
+
+
+
+    
+
+    
+
+    
+
     
 }
 
@@ -102,4 +548,9 @@ func power(base, p ll) ll {
 		}
 	}
 	return ans
+}
+
+func max(a int, b int ) int {
+    if a>b {return a}
+    return b
 }
