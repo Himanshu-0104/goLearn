@@ -373,11 +373,171 @@ func _merge(intervals [][]int) [][]int {
 
 //Ques8
 func merge(nums1 []int, m int, nums2 []int, n int)  {
-    
+    // single solution inplace
+    a,b,t:=m-1,n-1,len(nums1)-1
+    for a>=0 && b>=0 {
+        if nums1[a]> nums2[b] {
+            nums1[t]=nums1[a]
+            a=a-1
+            t=t-1
+        } else {
+            nums1[t]=nums2[b]
+            b=b-1
+            t=t-1
+        }
+
+    }
+
+    for b>=0 {
+        nums1[t]=nums2[b]
+        b=b-1
+        t=t-1
+    }
 }
 
+//Ques9
+func findDuplicate(nums []int) int {
+    // //bruteforce
+    // sort.Slice(nums,func(i,j int) bool { return nums[i]<nums[j]})
+    // ans:=-1
+    // for i:=1;i<len(nums);i++ {
+    //      if nums[i-1] == nums[i] {
+    //         ans=nums[i]
+    //      }
+    // }
+    // return ans
+
+    // // use extraSpace
+    // n:=len(nums)
+    // mp:=make(map[int]int,0)
+    // for i:=0;i<n;i++ {
+    //     _,ok := mp[nums[i]]
+    //     if ok {
+    //         return nums[i]
+    //     } else {
+    //         mp[nums[i]]++
+    //     }
+    // }
+    // return -1
+
+    // // slow,fast pointers (i.e 1. linked list cycle method, then 2. tortose method to detect where cycle )
+    s,f:=nums[0],nums[0]
+
+    for {    
+        s=nums[s]
+        f=nums[nums[f]]
+
+        if s==f {
+            break
+        }
+    }
+    f=nums[0]
+    for s!=f {
+        s=nums[s]
+        f=nums[f]
+    }
+    return s
+
+}
+
+//Ques10
+func ques10solve(nums[]int) []int{
+    // // //1. bruteforce n^2 linear search
+    // n:=len(nums)
+    // dup,mis:=0,0
+    // for i:=1;i<=n;i++ {
+
+    //     //search i in array
+    //     cnt:=0
+    //     for _,val := range nums {
+    //         if i==val {
+    //             cnt=cnt+1
+    //         }
+    //     }
+    //     if cnt==2 { dup=i
+    //     } else if cnt==0 {mis=i}
+
+    //     if dup!=0 && mis!=0 {break} //save iteration/computation by early return i.e. instant break when gets our answer like if test case has only 1,2 so we get answer in just two iteration instead of after n iteration runs
+    // }
+    // return []int {dup,mis}
+
+    // //2. bruteforce mine nlogn
+    // n:=len(nums)
+    // sort.Slice(nums,func(i,j int)bool{ return nums[i]<nums[j]})
+    // dup:=0
+    // for i:=1;i<n;i++ { //appears twice
+    //     if nums[i-1]==nums[i] {
+    //         dup=nums[i]
+    //         break
+    //     }
+    // }
+    // sumC:=0
+    // for i:=0;i<n;i++ { //missing
+    //     // if nums[i]!=i+1 { // not correct way 
+    //     //     return []int{dup,i+1}
+    //     // }
+
+    //     // // use of sum method or use map frequency  NOT Give missing element due to duplicasy , but above we not duplicate number so by using this we get answer
+    //     sumC+=nums[i]
+
+    // }
+    // sumN:= n*(n+1)/2 // may be this outofbound of int32 so must use int64 for this calculation after getting missing value then typecast that int64 to int as that value always be in given range
+    // miss:= sumN-(sumC-dup)
+
+    // return []int{dup,miss}
+
+    // //3. use of map frequency way
+    // n:=len(nums)
+    // mp:=make(map[int]int,0)
+    // for i:=0;i<n;i++ {
+    //     mp[nums[i]]++
+    // }
+    // mis,dup:=0,0
+    // for i:=1;i<=n;i++ { // or either creates map of n , now iterate over this map , if freq>1 gives dup if freq=0 gives missing
+    //     val,ok:=mp[i]
+    //     if !ok {
+    //         mis=i
+    //     } else if val>1 {
+    //         dup=i
+    //     }
+    // }
+    // return []int{dup,mis}
+
+    // // //4. use of two eqations of sum, squares sum of n numbers // for calcultion must use int64 
+    // n:=int64(len(nums))
+    // sn:=n*(n+1)/2
+    // sqn:=n*(n+1)*(2*n+1)/6
+
+    // var s int64
+    // var sq int64
+    // for _,v := range nums {
+    //     val:=int64(v)
+    //     s+=val
+    //     sq+=val*val
+    // }
+    // eq1:=sn-s
+    // eq2:=sqn-sq
+    // // x+y=eq2/eq1
+    // // x(miss)-y(dup)=sn-s
+    // miss:=((eq2/eq1) + sn-s )/2
+    // dup:=miss-sn+s
+    // return []int{int(dup),int(miss)}
+    
+    // //5. using of XOR
+    //still pending 
+    return []int{len(nums)}
+
+
+}
+
+//Ques11
+func ques11solve(nums []int) int{
+
+
+}
 
 func solve() {
+    
 /*
     // Ques1
     // fmt.Fprintln(out,"this is in solve")
@@ -469,7 +629,63 @@ func solve() {
     // fmt.Fprintln(out,"ans",ans)
     
     // Ques8
+    // c,m,n:=0,0,0
+    // fmt.Fscan(in,&c,&m)
+    // nums1:=make([]int,c)
+    // for i:=0;i<c;i++ {
+    //     fmt.Fscan(in,&nums1[i])
+    // }
+    // fmt.Fscan(in,&n)
+    // nums2:=make([]int,n)
+    // for i:=0;i<n;i++ {
+    //     fmt.Fscan(in,&nums2[i])
+    // }
+
+    // merge(nums1,m,nums2,n)
+    // fmt.Fprintln(out,"ans",nums1)
+
+    // Ques9
+    // n:=0
+    // fmt.Fscan(in,&n)
+    // nums:=make([]int, n)
+    // for i:=0;i<n;i++ {
+    //     fmt.Fscan(in,&nums[i])
+    // }
+    // ans:=findDuplicate(nums)
+    // fmt.Fprintln(out,ans)
+
+    // Ques10
+    // n:=0
+    // fmt.Fscan(in,&n)
+    // nums:=make([]int , n)
+    // for i:=0;i<n;i++ {
+    //     fmt.Fscan(in,&nums[i])
+    // }
+    // ans:=ques10solve(nums)
+    // fmt.Fprintln(out,ans)
+
+    // Ques11
 */
+
+    var n int 
+    fmt.Fscan(in,&n)
+    nums:=make([]int,n)
+    for i:=0;i<n;i++ {
+        fmt.Fscan(in,&nums[i])
+    }
+    ans:=ques11solve(nums)
+    fmt.Fprintln(out,ans)
+
+
+
+
+
+
+
+
+
+
+
 
 
 
