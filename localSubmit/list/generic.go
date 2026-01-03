@@ -4,7 +4,7 @@ import (
 	"os"
 )
 
-const filePath = "/home/himanshu/Desktop/templateWork/proj/go/goLearn/localSubmit/inOut"
+const filePath = "/Users/soas/Work/templateWork/proj/go/goLearn/localSubmit/inOut"
 
 func IOES() {
 

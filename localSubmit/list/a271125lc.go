@@ -532,7 +532,19 @@ func ques10solve(nums[]int) []int{
 
 //Ques11
 func ques11solve(nums []int) int{
+    //bruteforce 
+    n:=len(nums)
+    ans:=0
+    for i:=0;i<n;i++ {
+        for j:=i;j<n;j++ {
+            if nums[j]<nums[i] {
+                ans+=1
+            }
+        }
+    }
+    return ans
 
+    //optimal merge sort
 
 }
 
@@ -665,16 +677,21 @@ func solve() {
     // fmt.Fprintln(out,ans)
 
     // Ques11
-*/
+    // var n int 
+    // fmt.Fscan(in,&n)
+    // nums:=make([]int,n)
+    // for i:=0;i<n;i++ {
+    //     fmt.Fscan(in,&nums[i])
+    // }
+    // ans:=ques11solve(nums)
+    // fmt.Fprintln(out,ans)
 
-    var n int 
-    fmt.Fscan(in,&n)
-    nums:=make([]int,n)
-    for i:=0;i<n;i++ {
-        fmt.Fscan(in,&nums[i])
-    }
-    ans:=ques11solve(nums)
-    fmt.Fprintln(out,ans)
+
+    // Ques12
+*/
+fmt.Fprintln(out,"go success in mac")
+
+
 
 
 
