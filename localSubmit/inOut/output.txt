@@ -1,4 +1,3 @@
-this is in solve
-7 5
-this is in solve
-3 4
+go success in macm4 5
+go success in macm4 1
+go success in macm4 2

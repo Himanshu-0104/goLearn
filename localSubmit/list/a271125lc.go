@@ -689,7 +689,10 @@ func solve() {
 
     // Ques12
 */
-fmt.Fprintln(out,"go success in mac")
+    n:=0
+    fmt.Fscan(in,&n)
+    
+
 
 
 
