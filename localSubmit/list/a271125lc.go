@@ -548,6 +548,21 @@ func ques11solve(nums []int) int{
 
 }
 
+//Ques25 
+func reverseList(head *ListNode) *ListNode{
+    var prev *ListNode
+    cur := head
+
+    for cur != nil {
+        next := cur.Next
+        cur.Next = prev
+        prev = cur
+        cur = next
+    }
+
+    return prev
+}
+
 func solve() {
     
 /*
@@ -688,9 +703,20 @@ func solve() {
 
 
     // Ques12
+
+    // Ques25
 */
     n:=0
     fmt.Fscan(in,&n)
+    nums := make([] int,n)
+    for i:=0;i<n;i++ {
+        fmt.Fscan(in,&nums[i])
+    }
+
+    head := buildList(nums)
+    ans:= reverseList(head)
+    printList(ans)
+
     
 
 
@@ -790,3 +816,35 @@ func max(a int, b int ) int {
     if a>b {return a}
     return b
 }
+
+/* //Linked List DS
+type ListNode struct {
+    Val  int
+    Next *ListNode
+}
+
+// create linked list from input
+func buildList(nums []int) *ListNode {
+    dummy := &ListNode{}
+    cur := dummy
+
+    for _, v := range nums {
+        cur.Next = &ListNode{Val: v}
+        cur = cur.Next
+    }
+
+    return dummy.Next
+}
+
+// print linked list
+func printList(head *ListNode) {
+    for head != nil {
+        fmt.Fprint(out, head.Val)
+        if head.Next != nil {
+            fmt.Fprint(out, " ")
+        }
+        head = head.Next
+    }
+    fmt.Fprintln(out)
+}
+*/

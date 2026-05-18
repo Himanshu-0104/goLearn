@@ -1,0 +1,417 @@
+package main
+import "fmt"
+
+type Node struct {
+	data  int
+	next *Node //by default pointer points to nil
+}
+
+// encapsulate ll good way
+type LinkedList struct {
+	head *Node
+}
+
+/* create list 
+    
+	ll := LinkedList{}
+
+	now access methods for this type(LinkedList)
+
+*/
+
+
+//Below are Methods for type(LinkedList)
+
+// insert at end
+func (ll *LinkedList) Insert(data int) {
+	var newNode *Node
+	newNode = &Node{data:data}
+
+	if ll.head==nil {
+		ll.head = newNode
+		return 
+	}
+
+	var temp *Node
+	temp = ll.head
+	for temp.next != nil {
+		temp = temp.next
+	}
+	temp.next = newNode
+
+}
+
+// delete a node by value //GC handles automatic 
+func (ll *LinkedList) Delete(data int) {
+	if ll.head == nil {
+		return
+	}
+	if ll.head.data == data {
+		ll.head = ll.head.next
+		return
+	}
+	var prev *Node 
+	prev = ll.head
+	curr:= ll.head.next
+
+	for curr !=nil {
+		if curr.data == data {
+			prev.next = curr.next
+			return
+		}
+		prev = curr
+		curr = curr.next
+	}
+}
+
+
+// display list
+func (ll *LinkedList) Display() {
+	var temp *Node
+	temp = ll.head
+
+	for temp != nil {
+		fmt.Print(temp.data, " -> ")
+		temp=temp.next
+	}
+	fmt.Println("nil") //last alwasys points to nil
+
+}
+
+
+/* Normal way 
+
+type ListNode struct {
+    Val  int
+    Next *ListNode
+}
+
+// create linked list from input
+func buildList(nums []int) *ListNode {
+    dummy := &ListNode{}
+    cur := dummy
+
+    for _, v := range nums {
+        cur.Next = &ListNode{Val: v}
+        cur = cur.Next
+    }
+
+    return dummy.Next
+}
+
+// print linked list
+func printList(head *ListNode) {
+    for head != nil {
+        fmt.Fprint(out, head.Val)
+        if head.Next != nil {
+            fmt.Fprint(out, " ")
+        }
+        head = head.Next
+    }
+    fmt.Fprintln(out)
+}
+
+
+func reverseList(head *ListNode) *ListNode {
+    var prev *ListNode
+    cur := head
+
+    for cur != nil {
+        next := cur.Next
+        cur.Next = prev
+        prev = cur
+        cur = next
+    }
+
+    return prev
+}
+
+
+
+func solve() {
+    var n int
+    fmt.Fscan(in, &n)
+
+    nums := make([]int, n)
+    for i := 0; i < n; i++ {
+        fmt.Fscan(in, &nums[i])
+    }
+
+    head := buildList(nums)
+
+    // actual Leetcode function
+    ans := reverseList(head)
+
+    printList(ans)
+}
+
+
+*/
+
+
+
+
+
+/* Encapsulated way
+
+type Node struct {
+    data int
+    next *Node
+}
+
+type LinkedList struct {
+    head *Node
+}
+
+// insert at end
+func (ll *LinkedList) Push(val int) {
+    node := &Node{data: val}
+
+    if ll.head == nil {
+        ll.head = node
+        return
+    }
+
+    cur := ll.head
+    for cur.next != nil {
+        cur = cur.next
+    }
+
+    cur.next = node
+}
+
+// create from array
+func (ll *LinkedList) Build(nums []int) {
+    for _, v := range nums {
+        ll.Push(v)
+    }
+}
+
+// print list
+func (ll *LinkedList) Print() {
+    cur := ll.head
+
+    for cur != nil {
+        fmt.Fprint(out, cur.data)
+
+        if cur.next != nil {
+            fmt.Fprint(out, " ")
+        }
+
+        cur = cur.next
+    }
+    fmt.Fprintln(out)
+}
+
+// reverse
+func (ll *LinkedList) Reverse() {
+    var prev *Node
+    cur := ll.head
+
+    for cur != nil {
+        next := cur.next
+        cur.next = prev
+        prev = cur
+        cur = next
+    }
+
+    ll.head = prev
+}
+
+
+
+
+func solve() {
+    var n int
+    fmt.Fscan(in, &n)
+
+    nums := make([]int, n)
+
+    for i := 0; i < n; i++ {
+        fmt.Fscan(in, &nums[i])
+    }
+
+    list := LinkedList{}
+    list.Build(nums)
+
+    list.Reverse()
+
+    list.Print()
+}
+
+
+
+
+*/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// type LinkedList struct {
+// 	val        []int
+// 	prev, nxt  []int
+// 	head, tail int
+// 	size       int
+// }
+
+// func NewLinkedList(cap int) *LinkedList {
+// 	return &LinkedList{
+// 		val:  make([]int, 0, cap),
+// 		prev: make([]int, 0, cap),
+// 		nxt:  make([]int, 0, cap),
+// 		head: -1,
+// 		tail: -1,
+// 	}
+// }
+
+// func (l *LinkedList) newNode(x int) int {
+// 	id := len(l.val)
+// 	l.val = append(l.val, x)
+// 	l.prev = append(l.prev, -1)
+// 	l.nxt = append(l.nxt, -1)
+// 	l.size++
+// 	return id
+// }
+
+// func (l *LinkedList) PushFront(x int) int {
+// 	id := l.newNode(x)
+// 	if l.head == -1 {
+// 		l.head = id
+// 		l.tail = id
+// 		return id
+// 	}
+// 	l.nxt[id] = l.head
+// 	l.prev[l.head] = id
+// 	l.head = id
+// 	return id
+// }
+
+// func (l *LinkedList) PushBack(x int) int {
+// 	id := l.newNode(x)
+// 	if l.tail == -1 {
+// 		l.head = id
+// 		l.tail = id
+// 		return id
+// 	}
+// 	l.prev[id] = l.tail
+// 	l.nxt[l.tail] = id
+// 	l.tail = id
+// 	return id
+// }
+
+// func (l *LinkedList) InsertAfter(pos int, x int) int {
+// 	if pos == -1 {
+// 		return l.PushFront(x)
+// 	}
+// 	if pos == l.tail {
+// 		return l.PushBack(x)
+// 	}
+// 	id := l.newNode(x)
+// 	after := l.nxt[pos]
+// 	l.prev[id] = pos
+// 	l.nxt[id] = after
+// 	l.nxt[pos] = id
+// 	l.prev[after] = id
+// 	return id
+// }
+
+// func (l *LinkedList) InsertBefore(pos int, x int) int {
+// 	if pos == -1 {
+// 		return l.PushBack(x)
+// 	}
+// 	if pos == l.head {
+// 		return l.PushFront(x)
+// 	}
+// 	id := l.newNode(x)
+// 	before := l.prev[pos]
+// 	l.prev[id] = before
+// 	l.nxt[id] = pos
+// 	l.nxt[before] = id
+// 	l.prev[pos] = id
+// 	return id
+// }
+
+// func (l *LinkedList) Delete(id int) {
+// 	p := l.prev[id]
+// 	n := l.nxt[id]
+// 	if p != -1 {
+// 		l.nxt[p] = n
+// 	} else {
+// 		l.head = n
+// 	}
+// 	if n != -1 {
+// 		l.prev[n] = p
+// 	} else {
+// 		l.tail = p
+// 	}
+// 	l.prev[id] = -1
+// 	l.nxt[id] = -1
+// 	l.size--
+// }
+
+// func (l *LinkedList) Head() int {
+// 	return l.head
+// }
+
+// func (l *LinkedList) Tail() int {
+// 	return l.tail
+// }
+
+// func (l *LinkedList) Value(id int) int {
+// 	return l.val[id]
+// }
+
+// func (l *LinkedList) Next(id int) int {
+// 	return l.nxt[id]
+// }
+
+// func (l *LinkedList) Prev(id int) int {
+// 	return l.prev[id]
+// }
+
+// func (l *LinkedList) Len() int {
+// 	return l.size
+// }
+
+// func (l *LinkedList) ToSlice() []int {
+// 	ans := make([]int, 0, l.size)
+// 	for cur := l.head; cur != -1; cur = l.nxt[cur] {
+// 		ans = append(ans, l.val[cur])
+// 	}
+// 	return ans
+// }
+
+
+
+
+
+
+
+
