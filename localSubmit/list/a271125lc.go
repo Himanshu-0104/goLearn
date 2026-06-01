@@ -49,18 +49,67 @@ func ques11solve(nums []int) int{
 }
 
 //Ques25 
-func reverseList(head *ListNode) *ListNode{
-    var prev *ListNode
-    cur := head
+// func reverseList(head *ListNode) *ListNode{
+//     var prev *ListNode
+//     cur := head
 
-    for cur != nil {
-        next := cur.Next
-        cur.Next = prev
-        prev = cur
-        cur = next
+//     for cur != nil {
+//         next := cur.Next
+//         cur.Next = prev
+//         prev = cur
+//         cur = next
+//     }
+
+//     return prev
+// }
+
+/**
+ * Definition for singly-linked list.
+ * type ListNode struct {
+ *     Val int
+ *     Next *ListNode
+ * }
+ */
+func reverseList(head *ListNode) *ListNode {
+    // using Stack
+    var st Stack
+    temp := head
+    for temp!=nil {
+        st.Push(temp.Val)
+        temp=temp.Next
     }
+    temp = head
+    for temp != nil {
+        temp.Val = st.Top()
+        st.Pop()
+        temp = temp.Next
+    }
+    return head
 
-    return prev
+    // //Iterative
+    // var prev *ListNode
+    // temp:=head
+    // for temp !=nil {
+    //     front:=temp.Next
+    //     //change pointer (prev, first assign already prev then update prev)
+    //     // 1step
+    //     temp.Next = prev 
+    //     prev=temp
+
+    //     //2nd step
+    //     temp=front
+    // }
+    // return prev
+
+    // // Recursive
+    // if head == nil || head.Next == nil {
+    //     return head
+    // }
+    // newHead:= reverseList(head.Next)
+    // front:=head.Next
+    // front.Next=head
+    // head.Next = nil
+    // return newHead
 }
 
 func solve() {
@@ -224,5 +273,79 @@ func printList(head *ListNode) {
         head = head.Next
     }
     fmt.Fprintln(out)
+}
+*/
+
+
+/* //Max Heap DS
+type maxHeap struct {
+    data []int
+}
+
+//h.insert(val) 
+// func (h *maxHeap) insert(value int) {
+//insert(h,val)
+func insert(h *maxHeap, value int) {
+    h.data = append(h.data,value)
+    heapifyUp(len(h, h.data)-1) //what this does => refactor heap
+}
+
+func heapifyUp(h *maxHeap, idx int) {
+    for idx > 0 { //logn
+        par := (idx-1) / 2
+        if h.data[idx] > h.data[par] {
+            h.data[par],h.data[idx] = h.data[idx],h.data[par]
+            idx = par
+        } else {
+            break
+        }
+    }
+}
+
+func delete(h *maxHeap) (int,bool) {
+    if len(h.data) == 0 {
+        return 0, false
+    }
+    mxVal := h.data[0]
+    h.data[0]=h.data[len(h.data)-1] //last ele gets first
+    h.data = h.data[: len(h.data)-1] //free size
+    heapifyDown(0) // why zero => bcz delte from top(highest) so refactor down from top
+
+    return mxVal, true
+}
+
+func heapifyDown(h *maxHeap, idx int) {
+    n = len(h.data)-1
+    for {
+        leftIdx := h.data[2*idx+1]
+        rightIdx = h.data[2*idx+2]
+        largestIdx = idx
+
+        if leftIdx<=n && h.data[leftIdx] > h.data[largestIdx] {
+            largestIdx = leftIdx
+        } 
+        if rightIdx<=n && h.data[rightIdx] > h.data[largestIdx] {
+            largestIdx = rightIdx
+        }
+        if largestIdx == idx {
+            break
+        }
+
+        h.data[idx], h.data[largestIdx] = h.data[largestIdx], h.data[idx]
+        idx = largestIdx // due to this log(n) , bcz traverse only below this
+    }
+}
+
+func peek(h *maxHeap) (int,bool) {
+    if len(h.data == 0) {return 0,false}
+    return h.data[0],true
+}
+
+func size(h *maxHeap) int {
+    return len(h.data)
+}
+
+func isEmpty(h *maxHeap) bool {
+    return len(h.data) == 0
 }
 */
